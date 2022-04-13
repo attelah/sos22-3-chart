@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
@@ -18,7 +19,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    String currency, datefrom, dateto;
+    String currency, dateFrom, dateTo;
+    LineChart chart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +30,40 @@ public class MainActivity extends AppCompatActivity {
 
         // TEMPORÄRA VÄRDEN
         currency = "USD";
-        datefrom = "2022-01-01";
-        dateto = "2022-02-01";
+        dateFrom = "2022-01-01";
+        dateTo = "2022-02-01";
+        chart = (LineChart) findViewById(R.id.chart);
+
+
 
         // Hämta växelkurser från API
-        ArrayList<Double> currencyValues = getCurrencyValues(currency, datefrom, dateto);
+        ArrayList<Double> currencyValues = getCurrencyValues(currency, dateFrom, dateTo);
         // Skriv ut dem i konsolen
         System.out.println(currencyValues.toString());
+
+        createSimpleGraph(currencyValues); //för in data till grafen
+
+
+        //TESTSAKER!! HÖRS INTE TILL APPEN
+        ArrayList<Double> temperatures = Statistics.getDataValues();
+        ArrayList<Double> tempsSma = Statistics.TESTsma(temperatures, 3);
+
     }
+
+    //GRAFEN
+    public void createSimpleGraph (ArrayList<Double> dataSet){
+    List<Entry> entries = new ArrayList<Entry>();
+        for (int i = 0; i < dataSet.size(); i++) {
+            entries.add(new Entry(i,dataSet.get(i).floatValue()));
+        }
+        LineDataSet lineDataSet = new LineDataSet(entries, "Temperatur");
+        LineData LineData = new LineData(lineDataSet);
+
+        chart.setData(LineData);
+        chart.invalidate(); //refresh
+    }
+
+
 
 
     // Färdig metod som hämtar växelkursdata
