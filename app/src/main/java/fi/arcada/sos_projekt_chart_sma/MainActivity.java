@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -37,18 +38,22 @@ public class MainActivity extends AppCompatActivity {
         chart = (LineChart) findViewById(R.id.chart);
 
 
-
         // Hämta växelkurser från API
         ArrayList<Double> currencyValues = getCurrencyValues(currency, dateFrom, dateTo);
         // Skriv ut dem i konsolen
         System.out.println(currencyValues.toString());
+        ArrayList<ChartLine> chartLines = new ArrayList<>();
 
-        createSimpleGraph(currencyValues); //för in data till grafen
+        chartLines.add(new ChartLine(currencyValues, "Valutakurs", Color.BLUE, 0));
+        chartLines.add(new ChartLine(Statistics.sma(currencyValues, 3), "SMA3", Color.GREEN, 3));
+        chartLines.add(new ChartLine(Statistics.sma(currencyValues, 10), "SMA10", Color.RED, 10));
+        createMultilineGraph(chartLines);
 
 
-        //TESTSAKER!! HÖRS INTE TILL APPEN
+        //TESTSAKER!! HÖRS INTE TILL APPEN direkt
         ArrayList<Double> temperatures = Statistics.getDataValues();
-        ArrayList<Double> tempsSma = Statistics.TESTsma(temperatures, 3);
+        ArrayList<Double> tempsSma = Statistics.sma(temperatures, 3);
+        ArrayList<Double> tempsSma2 = Statistics.sma(temperatures, 10);
 
     }
 
@@ -65,7 +70,23 @@ public class MainActivity extends AppCompatActivity {
         chart.invalidate(); //refresh
     }
 
+    public void createMultilineGraph(ArrayList<ChartLine> chartLines) {
+        List<ILineDataSet> dataSeries = new ArrayList<>();
 
+        for (ChartLine chartLine: chartLines) {
+            LineDataSet lineDataSet = new LineDataSet(chartLine.getEntries(), chartLine.getLabel());
+
+            lineDataSet.setColor(chartLine.getColor());
+            lineDataSet.setDrawCircles(false);
+            lineDataSet.setDrawValues(false);
+            dataSeries.add(lineDataSet);
+        }
+
+        LineData lineData = new LineData(dataSeries);
+        chart.setData(lineData);
+        chart.invalidate(); // refresh
+
+}
 
 
     // Färdig metod som hämtar växelkursdata
