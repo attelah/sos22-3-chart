@@ -2,8 +2,10 @@ package fi.arcada.sos_projekt_chart_sma;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -89,5 +91,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return currencyData;
+    }
+    public void openSettings(View view) {
+
+        Intent intent = new Intent (this, SettingsActivity.class);
+        startActivity(intent);
     }
 }
