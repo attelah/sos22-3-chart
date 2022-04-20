@@ -3,8 +3,10 @@ package fi.arcada.sos_projekt_chart_sma;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     String currency, dateFrom, dateTo;
     LineChart chart;
 
+    int launchCount= 0;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         dateTo = "2022-02-01";
         chart = (LineChart) findViewById(R.id.chart);
 
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Hämta växelkurser från API
         ArrayList<Double> currencyValues = getCurrencyValues(currency, dateFrom, dateTo);
