@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity {
 
     TextView textMain;
@@ -63,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void buttonClick(View view) {
 
-        calculate();
+        currency = sharedPref.getString("Currency", "USD");
+        dateFrom = sharedPref.getString("dateFrom", "2022-01-01");
+        dateTo = sharedPref.getString("dateTo", "2022-04-01");
         ArrayList<Double> currencyValues = getCurrencyValues(currency, dateFrom, dateTo);
 
         if (view.getId() == R.id.button1) {
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             chartLines.add(new ChartLine(currencyValues, "Valutakurs", Color.BLUE, 0));
             createMultilineGraph(chartLines);
         }
-
+        calculate();
     }
 
     //GRAFEN (enkel graf test)
