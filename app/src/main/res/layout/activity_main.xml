@@ -20,11 +20,12 @@
     </com.github.mikephil.charting.charts.LineChart>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="92dp"
         android:layout_marginTop="20dp"
+        android:onClick="buttonClick"
         android:text="SMA 10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,9 +38,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="21dp"
+        android:onClick="buttonClick"
         android:text="SMA 30"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintStart_toEndOf="@+id/button1"
         app:layout_constraintTop_toBottomOf="@+id/chart"
         app:layout_constraintVertical_bias="0.0" />
 

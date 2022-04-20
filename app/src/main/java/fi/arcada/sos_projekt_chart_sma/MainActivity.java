@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +30,13 @@ public class MainActivity extends AppCompatActivity {
     String currency, dateFrom, dateTo;
     LineChart chart;
 
+    int launchCount= 0;
     SharedPreferences sharedPref;
     SharedPreferences.Editor prefEditor;
+
+    // Hämta växelkurser från API
+
+    ArrayList<ChartLine> chartLines = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +57,25 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<ChartLine> chartLines = new ArrayList<>();
 
         chartLines.add(new ChartLine(currencyValues, "Valutakurs", Color.BLUE, 0));
-        chartLines.add(new ChartLine(Statistics.movingAverage(currencyValues, 10), "SMA 10", Color.GREEN, 10));
-        chartLines.add(new ChartLine(Statistics.movingAverage(currencyValues, 30), "SMA 30", Color.RED, 30));
+
         createMultilineGraph(chartLines);
+    }
+
+    public void buttonClick(View view) {
+
+        calculate();
+        ArrayList<Double> currencyValues = getCurrencyValues(currency, dateFrom, dateTo);
+
+        if (view.getId() == R.id.button1) {
+            chartLines.add(new ChartLine(Statistics.movingAverage(currencyValues, 10), "SMA 10", Color.GREEN, 10));
+        }
+        if (view.getId() == R.id.button2) {
+            chartLines.add(new ChartLine(Statistics.movingAverage(currencyValues, 30), "SMA 30", Color.RED, 30));
+        }
+        if (!chartLines.contains(currencyValues)) {
+            chartLines.add(new ChartLine(currencyValues, "Valutakurs", Color.BLUE, 0));
+            createMultilineGraph(chartLines);
+        }
 
     }
 
