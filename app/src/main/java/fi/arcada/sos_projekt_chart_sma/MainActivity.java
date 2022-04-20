@@ -45,20 +45,14 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<ChartLine> chartLines = new ArrayList<>();
 
         chartLines.add(new ChartLine(currencyValues, "Valutakurs", Color.BLUE, 0));
-        chartLines.add(new ChartLine(Statistics.sma(currencyValues, 3), "SMA3", Color.GREEN, 3));
-        chartLines.add(new ChartLine(Statistics.sma(currencyValues, 10), "SMA10", Color.RED, 10));
+        chartLines.add(new ChartLine(Statistics.movingAverage(currencyValues, 10), "SMA 10", Color.GREEN, 10));
+        chartLines.add(new ChartLine(Statistics.movingAverage(currencyValues, 30), "SMA 30", Color.RED, 30));
         createMultilineGraph(chartLines);
-
-
-        //TESTSAKER!! HÖRS INTE TILL APPEN direkt
-        ArrayList<Double> temperatures = Statistics.getDataValues();
-        ArrayList<Double> tempsSma = Statistics.sma(temperatures, 3);
-        ArrayList<Double> tempsSma2 = Statistics.sma(temperatures, 10);
 
     }
 
-    //GRAFEN
-    public void createSimpleGraph (ArrayList<Double> dataSet){
+    //GRAFEN (enkel graf test)
+    /*public void createSimpleGraph (ArrayList<Double> dataSet){
     List<Entry> entries = new ArrayList<Entry>();
         for (int i = 0; i < dataSet.size(); i++) {
             entries.add(new Entry(i,dataSet.get(i).floatValue()));
@@ -68,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         chart.setData(LineData);
         chart.invalidate(); //refresh
-    }
+    }*/
 
     public void createMultilineGraph(ArrayList<ChartLine> chartLines) {
         List<ILineDataSet> dataSeries = new ArrayList<>();
