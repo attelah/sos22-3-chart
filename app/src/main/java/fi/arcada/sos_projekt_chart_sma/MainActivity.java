@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -24,10 +25,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView textMain;
     String currency, dateFrom, dateTo;
     LineChart chart;
 
-    int launchCount= 0;
     SharedPreferences sharedPref;
     SharedPreferences.Editor prefEditor;
 
@@ -36,13 +37,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TEMPORÄRA VÄRDEN
-        currency = "USD";
-        dateFrom = "2022-01-01";
-        dateTo = "2022-02-01";
-        chart = (LineChart) findViewById(R.id.chart);
-
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        chart = (LineChart) findViewById(R.id.chart);
+        textMain = findViewById(R.id.textView);
+
+        currency = sharedPref.getString("Currency", "USD");
+        dateFrom = sharedPref.getString("dateFrom", "2022-01-01");
+        dateTo = sharedPref.getString("dateTo", "2022-02-01");
 
         // Hämta växelkurser från API
         ArrayList<Double> currencyValues = getCurrencyValues(currency, dateFrom, dateTo);
