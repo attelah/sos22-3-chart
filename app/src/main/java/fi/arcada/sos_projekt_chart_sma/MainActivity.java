@@ -42,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
         chart = (LineChart) findViewById(R.id.chart);
         textMain = findViewById(R.id.textView);
 
-        currency = sharedPref.getString("Currency", "USD");
-        dateFrom = sharedPref.getString("dateFrom", "2022-01-01");
-        dateTo = sharedPref.getString("dateTo", "2022-02-01");
+        calculate();
 
         // Hämta växelkurser från API
         ArrayList<Double> currencyValues = getCurrencyValues(currency, dateFrom, dateTo);
@@ -114,6 +112,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return currencyData;
+    }
+    public void calculate() {
+
+        currency = sharedPref.getString("Currency", "USD");
+        dateFrom = sharedPref.getString("dateFrom", "2022-01-01");
+        dateTo = sharedPref.getString("dateTo", "2022-04-01");
+
+        textMain.setText(String.format("%s | %s - %s",
+                currency,
+                dateFrom,
+                dateTo));
     }
     public void openSettings(View view) {
 
