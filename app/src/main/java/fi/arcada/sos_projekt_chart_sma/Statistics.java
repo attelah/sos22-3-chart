@@ -17,11 +17,11 @@ public class Statistics {
 public static ArrayList<Double> movingAverage(ArrayList<Double> dataset, int window) {
     ArrayList<Double> ma = new ArrayList<>();
 
-    for  (int i = window-1; i < dataset.size(); i++) {
+    for  (int i = window-1; i < dataset.size()-1; i++) {
         double sum = 0.0;
         for (int j=0; j < window; j++){
-        sum += dataset.get(i-j);
-    }
+            sum += dataset.get(i-j);
+        }
         ma.add(sum / window); // medelvärde
     }
     return ma;

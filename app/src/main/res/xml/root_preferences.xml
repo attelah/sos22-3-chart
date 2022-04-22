@@ -2,21 +2,25 @@
 
     <PreferenceCategory app:title="Inställningar">
 
-        <EditTextPreference
+
+        <ListPreference
+            app:defaultValue="USD"
+            app:entries="@array/currency_entries"
+            app:entryValues="@array/currency_values"
             app:key="Currency"
-            app:title="Valuta"
+            app:title="Välj valuta"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             app:key="dateFrom"
-            app:title="Startdatum"
+            app:title="Startdatum (YYYY-MM-DD)"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             app:key="dateTo"
-            app:title="Slutdatum"
+            app:title="Slutdatum (YYY-MM-DD)"
             app:useSimpleSummaryProvider="true" />
 
-        </PreferenceCategory>
+    </PreferenceCategory>
 
-        </PreferenceScreen>
+</PreferenceScreen>

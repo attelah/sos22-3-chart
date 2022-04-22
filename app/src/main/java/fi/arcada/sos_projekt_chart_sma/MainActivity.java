@@ -8,21 +8,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,14 +25,16 @@ public class MainActivity extends AppCompatActivity {
     TextView textMain;
     String currency, dateFrom, dateTo;
     LineChart chart;
+    boolean sma10Added = false;
+    boolean sma30Added = false;
 
-    int launchCount= 0;
     SharedPreferences sharedPref;
     SharedPreferences.Editor prefEditor;
 
     // Hämta växelkurser från API
 
     ArrayList<ChartLine> chartLines = new ArrayList<>();
+    ChartLine currencyLine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +52,19 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Double> currencyValues = getCurrencyValues(currency, dateFrom, dateTo);
         // Skriv ut dem i konsolen
         System.out.println(currencyValues.toString());
-        ArrayList<ChartLine> chartLines = new ArrayList<>();
 
-        chartLines.add(new ChartLine(currencyValues, "Valutakurs", Color.BLUE, 0));
+        // Skriv ut valuta charten
+        currencyLine = new ChartLine(currencyValues, "Valutakurs", Color.BLUE, 0);
+
+        chartLines.add(currencyLine);
 
         createMultilineGraph(chartLines);
     }
 
     public void buttonClick(View view) {
+
+        chartLines = new ArrayList<>();
+        chartLines.add(currencyLine);
 
         currency = sharedPref.getString("Currency", "USD");
         dateFrom = sharedPref.getString("dateFrom", "2022-01-01");
@@ -70,19 +72,24 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Double> currencyValues = getCurrencyValues(currency, dateFrom, dateTo);
 
         if (view.getId() == R.id.button1) {
+           sma10Added = sma10Added ? false : true;
+        }
+        if (sma10Added) {
             chartLines.add(new ChartLine(Statistics.movingAverage(currencyValues, 10), "SMA 10", Color.GREEN, 10));
         }
+
         if (view.getId() == R.id.button2) {
+            sma30Added = sma30Added ? false : true;
+        }
+        if (sma30Added) {
             chartLines.add(new ChartLine(Statistics.movingAverage(currencyValues, 30), "SMA 30", Color.RED, 30));
         }
-        if (!chartLines.contains(currencyValues)) {
-            chartLines.add(new ChartLine(currencyValues, "Valutakurs", Color.BLUE, 0));
-            createMultilineGraph(chartLines);
-        }
+
         calculate();
+        createMultilineGraph(chartLines);
     }
 
-    //GRAFEN (enkel graf test)
+    //GRAFEN (enkel graf test vid behov)
     /*public void createSimpleGraph (ArrayList<Double> dataSet){
     List<Entry> entries = new ArrayList<Entry>();
         for (int i = 0; i < dataSet.size(); i++) {
@@ -98,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     public void createMultilineGraph(ArrayList<ChartLine> chartLines) {
         List<ILineDataSet> dataSeries = new ArrayList<>();
 
-        for (ChartLine chartLine: chartLines) {
+        for (ChartLine chartLine : chartLines) {
             LineDataSet lineDataSet = new LineDataSet(chartLine.getEntries(), chartLine.getLabel());
 
             lineDataSet.setColor(chartLine.getColor());
@@ -111,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         chart.setData(lineData);
         chart.invalidate(); // refresh
 
-}
+    }
 
 
     // Färdig metod som hämtar växelkursdata
@@ -138,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
         return currencyData;
     }
+
     public void calculate() {
 
         currency = sharedPref.getString("Currency", "USD");
@@ -149,9 +157,10 @@ public class MainActivity extends AppCompatActivity {
                 dateFrom,
                 dateTo));
     }
+
     public void openSettings(View view) {
 
-        Intent intent = new Intent (this, SettingsActivity.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 }

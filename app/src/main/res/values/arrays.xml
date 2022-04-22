@@ -1,12 +1,25 @@
 <resources>
     <!-- Reply Preference -->
-    <string-array name="reply_entries">
-        <item>Reply</item>
-        <item>Reply to all</item>
+    <string-array name="currency_entries">
+        <item>US dollar</item>
+        <item>Brittiska pund</item>
+        <item>Svenska kronor</item>
+        <item>Danska kronor</item>
+        <item>Norska kronor</item>
+        <item>Kanadensiska dollar</item>
+        <item>Ryska rubel</item>
+
+
     </string-array>
 
-    <string-array name="reply_values">
-        <item>reply</item>
-        <item>reply_all</item>
+    <string-array name="currency_values">
+        <item>USD</item>
+        <item>GBP</item>
+        <item>SEK</item>
+        <item>DKK</item>
+        <item>NOK</item>
+        <item>CAD</item>
+        <item>RUB</item>
+
     </string-array>
 </resources>
