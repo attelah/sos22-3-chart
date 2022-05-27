@@ -1,1 +1,2 @@
-# sos-projekt3-template
+# Statistics and probability
+A project in statistics and probability, android application, charts
